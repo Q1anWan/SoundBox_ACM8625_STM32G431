@@ -59,7 +59,7 @@ extern "C" {
 #endif /* AUDIO_FS_BINTERVAL */
 
 #define AUDIO_OUT_EP                                  0x01U
-#define USB_AUDIO_CONFIG_DESC_SIZ                     0x6DU
+#define USB_AUDIO_CONFIG_DESC_SIZ                     0x6CU
 #define AUDIO_INTERFACE_DESC_SIZE                     0x09U
 #define USB_AUDIO_DESC_SIZ                            0x09U
 #define AUDIO_STANDARD_ENDPOINT_DESC_SIZE             0x09U
@@ -88,6 +88,7 @@ extern "C" {
 #define AUDIO_STREAMING_INTERFACE_DESC_SIZE           0x07U
 
 #define AUDIO_CONTROL_MUTE                            0x0001U
+#define AUDIO_CONTROL_VOLUME                          0x0002U
 
 #define AUDIO_FORMAT_TYPE_I                           0x01U
 #define AUDIO_FORMAT_TYPE_III                         0x03U
@@ -96,6 +97,9 @@ extern "C" {
 
 #define AUDIO_REQ_GET_CUR                             0x81U
 #define AUDIO_REQ_SET_CUR                             0x01U
+#define AUDIO_REQ_GET_MIN                             0x82U
+#define AUDIO_REQ_GET_MAX                             0x83U
+#define AUDIO_REQ_GET_RES                             0x84U
 
 #define AUDIO_OUT_STREAMING_CTRL                      0x02U
 
@@ -162,10 +166,12 @@ typedef struct
   int8_t (*Init)(uint32_t AudioFreq, uint32_t Volume, uint32_t options);
   int8_t (*DeInit)(uint32_t options);
   int8_t (*AudioCmd)(uint8_t *pbuf, uint32_t size, uint8_t cmd);
-  int8_t (*VolumeCtl)(uint8_t vol);
+  // int8_t (*VolumeCtl)(uint8_t vol);
   int8_t (*MuteCtl)(uint8_t cmd);
   int8_t (*PeriodicTC)(uint8_t *pbuf, uint32_t size, uint8_t cmd);
   int8_t (*GetState)(void);
+  /* 可选的高分辨率音量控制回调 (如果为NULL则使用标准VolumeCtl) */
+  int8_t (*VolumeCtlHighRes)(int16_t vol_raw);
 } USBD_AUDIO_ItfTypeDef;
 /**
   * @}

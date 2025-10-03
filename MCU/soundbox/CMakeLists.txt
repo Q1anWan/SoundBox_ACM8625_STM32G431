@@ -70,7 +70,7 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    test_cmsis_dsp.c # Test file for CMSIS-DSP integration (can be removed later)
+    Module/test/test_cmsis_dsp.c # Test file for CMSIS-DSP integration (can be removed later)
     # Add user sources here
 )
 

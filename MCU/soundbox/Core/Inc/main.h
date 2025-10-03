@@ -59,7 +59,18 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
+typedef struct {
+  float volume;         /* 主音量浮点值 (0.0-1.0) - 默认高精度存储 */
+  int16_t vol_raw;      /* 原始音量值 (-32768 to 32767, 映射到 0.0f-1.0f) - USB接收的原始值 */
 
+  uint8_t mute;
+  uint8_t play_state;
+
+  uint32_t data_size;
+  uint32_t audio_freq;
+  int32_t data0;
+
+}Audio_t;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
