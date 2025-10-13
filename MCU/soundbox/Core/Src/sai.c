@@ -49,7 +49,7 @@ void MX_SAI1_Init(void)
   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_1QF;
   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_48K;
   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_32BIT, 2) != HAL_OK)
@@ -113,7 +113,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef* saiHandle)
     hdma_sai1_a.Init.MemInc = DMA_MINC_ENABLE;
     hdma_sai1_a.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_sai1_a.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    hdma_sai1_a.Init.Mode = DMA_NORMAL;
+    hdma_sai1_a.Init.Mode = DMA_CIRCULAR;
     hdma_sai1_a.Init.Priority = DMA_PRIORITY_LOW;
     if (HAL_DMA_Init(&hdma_sai1_a) != HAL_OK)
     {
