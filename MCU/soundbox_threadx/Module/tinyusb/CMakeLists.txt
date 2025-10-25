@@ -12,6 +12,7 @@ function(tinyusb_configure_target target)
         ${TINYUSB_ROOT_DIR}/src/portable/st/stm32_fsdev/dcd_stm32_fsdev.c
         ${TINYUSB_ROOT_DIR}/user/audio.c
         ${TINYUSB_ROOT_DIR}/user/usb_descriptors.c
+        ${TINYUSB_ROOT_DIR}/user/tinyusb_app.c
     )
 
     target_include_directories(${target} PRIVATE

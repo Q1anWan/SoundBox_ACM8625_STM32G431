@@ -122,23 +122,23 @@ int sys_read (int fhdl, char *buf, size_t count) {
 //}
 
 // Clang use picolibc
-#if defined(__clang__)
-static int cl_putc(char c, FILE *f) {
-  (void) f;
-  return sys_write(0, &c, 1);
-}
+// #if defined(__clang__)
+// static int cl_putc(char c, FILE *f) {
+//   (void) f;
+//   return sys_write(0, &c, 1);
+// }
 
-static int cl_getc(FILE* f) {
-  (void) f;
-  char c;
-  return sys_read(0, &c, 1) > 0 ? c : -1;
-}
+// static int cl_getc(FILE* f) {
+//   (void) f;
+//   char c;
+//   return sys_read(0, &c, 1) > 0 ? c : -1;
+// }
 
 // static FILE __stdio = FDEV_SETUP_STREAM(cl_putc, cl_getc, NULL, _FDEV_SETUP_RW);
 // FILE *const stdin = &__stdio;
 // __strong_reference(stdin, stdout);
 // __strong_reference(stdin, stderr);
-#endif
+// #endif
 
 //--------------------------------------------------------------------+
 // Weak board API (to be optionally implemented by board)
