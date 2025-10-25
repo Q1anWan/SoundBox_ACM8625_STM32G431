@@ -1,0 +1,66 @@
+#include "tinyusb_app.h"
+
+#include <stdbool.h>
+
+#include "audio_app.h"
+#include "board_api.h"
+#include "tusb.h"
+
+#define TINYUSB_THREAD_STACK_SIZE 2048u
+#define TINYUSB_THREAD_PRIORITY   5u
+
+static TX_THREAD tinyusb_thread;
+static ULONG tinyusb_thread_stack[TINYUSB_THREAD_STACK_SIZE / sizeof(ULONG)];
+static bool tinyusb_thread_created = false;
+
+static void tinyusb_thread_entry(ULONG argument);
+
+UINT tinyusb_app_init(void) {
+  if (tinyusb_thread_created) {
+    return TX_SUCCESS;
+  }
+
+  UINT status = tx_thread_create(&tinyusb_thread,
+                                 (CHAR *) "TinyUSB",
+                                 tinyusb_thread_entry,
+                                 0,
+                                 tinyusb_thread_stack,
+                                 sizeof(tinyusb_thread_stack),
+                                 TINYUSB_THREAD_PRIORITY,
+                                 TINYUSB_THREAD_PRIORITY,
+                                 TX_NO_TIME_SLICE,
+                                 TX_AUTO_START);
+
+  if (status == TX_SUCCESS) {
+    tinyusb_thread_created = true;
+  }
+
+  return status;
+}
+
+static void tinyusb_thread_entry(ULONG argument) {
+  (void) argument;
+
+  board_init();
+
+  tusb_rhport_init_t dev_init = {
+      .role = TUSB_ROLE_DEVICE,
+      .speed = TUSB_SPEED_AUTO,
+  };
+
+  if (!tusb_init(BOARD_TUD_RHPORT, &dev_init)) {
+    // Unable to initialise the USB device stack, block forever.
+    while (1) {
+      tx_thread_sleep(TX_WAIT_FOREVER);
+    }
+  }
+
+  board_init_after_tusb();
+  tinyusb_audio_app_init();
+
+  for (;;) {
+    tud_task();
+    tinyusb_audio_app_task();
+    tx_thread_sleep(1);
+  }
+}
