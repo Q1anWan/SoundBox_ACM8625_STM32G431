@@ -26,7 +26,7 @@
 
 #ifndef _TUSB_DEBUG_H_
 #define _TUSB_DEBUG_H_
-
+#include "tusb_config.h"
 #ifdef __cplusplus
  extern "C" {
 #endif

@@ -55,12 +55,13 @@ extern "C" {
 #endif
 
 #ifndef CFG_TUSB_OS
-#define CFG_TUSB_OS                 OPT_OS_CUSTOM
+#define CFG_TUSB_OS         OPT_OS_CUSTOM
 #endif
 
 #ifndef CFG_TUSB_DEBUG
 #define CFG_TUSB_DEBUG              3
 #endif
+#define UART_DEV
 
 // Enable Device stack
 #define CFG_TUD_ENABLED       1

@@ -33,6 +33,8 @@
 
 #include "board_api.h"
 #include "board.h"
+#include "tx_api.h"
+#include "usart.h"
 
 //--------------------------------------------------------------------+
 // Forward USB interrupt events to TinyUSB IRQ Handler
@@ -57,9 +59,6 @@ void UCPD1_IRQHandler(void) {
 //--------------------------------------------------------------------+
 // MACRO TYPEDEF CONSTANT ENUM
 //--------------------------------------------------------------------+
-#ifdef UART_DEV
-UART_HandleTypeDef UartHandle;
-#endif
 
 // void board_init(void) {
 //   HAL_Init();
@@ -192,29 +191,20 @@ int board_uart_read(uint8_t *buf, int len) {
   return 0;
 }
 
-// int board_uart_write(void const *buf, int len) {
-// #ifdef UART_DEV
-//   HAL_UART_Transmit(&UartHandle, (uint8_t*)(uintptr_t) buf, len, 0xffff);
-//   return len;
-// #else
-//   (void) buf;
-//   (void) len;
-//   return 0;
-// #endif
-// }
-
-#if CFG_TUSB_OS == OPT_OS_NONE
-volatile uint32_t system_ticks = 0;
-
-// void SysTick_Handler(void) {
-//   HAL_IncTick();
-//   system_ticks++;
-// }
+int board_uart_write(void const *buf, int len) {
+#ifdef UART_DEV
+  HAL_UART_Transmit(&huart1, (uint8_t*)(uintptr_t) buf, len, 0xffff);
+  return len;
+#else
+  (void) buf;
+  (void) len;
+  return 0;
+#endif
+}
 
 uint32_t board_millis(void) {
-  return system_ticks;
+  return tx_time_get();
 }
-#endif
 
 // void HardFault_Handler(void) {
 //   __asm("BKPT #0\n");

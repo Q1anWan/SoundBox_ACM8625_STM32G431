@@ -4,7 +4,7 @@ CompileFlags:
     - '-Wno-implicit-int'
   Remove:
     - '--multi-lib-config=*'
-  CompilationDatabase: build/RelWithDebInfo
+  CompilationDatabase: build/Debug
 Diagnostics:
   Suppress:
     - unused-includes

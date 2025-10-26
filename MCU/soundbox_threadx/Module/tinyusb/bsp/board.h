@@ -41,9 +41,9 @@
 // - PA11 for D-, CN10.14
 
 // LED
-#define LED_PORT              GPIOA
-#define LED_PIN               GPIO_PIN_5
-#define LED_STATE_ON          0
+#define LED_PORT              GPIOC
+#define LED_PIN               GPIO_PIN_6
+#define LED_STATE_ON          1
 
 // Button
 #define BUTTON_PORT           GPIOC

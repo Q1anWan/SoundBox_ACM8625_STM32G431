@@ -7,7 +7,6 @@ function(tinyusb_configure_target target)
 
     target_sources(${target} PRIVATE
         ${TINYUSB_ROOT_DIR}/bsp/board.c
-        ${TINYUSB_ROOT_DIR}/bsp/board_port.c
         ${TINYUSB_ROOT_DIR}/bsp/family.c
         ${TINYUSB_ROOT_DIR}/src/portable/st/stm32_fsdev/dcd_stm32_fsdev.c
         ${TINYUSB_ROOT_DIR}/user/audio.c
